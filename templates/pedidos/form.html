@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titulo %}{{ titulo }}{% endblock %}
+{% block contenido %}
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="h4 mb-3">{{ titulo }}</h1>
+        <form method="post" novalidate data-validar="pedido">
+          {% csrf_token %}
+          <div id="resumen-errores" class="alert alert-danger d-none" role="alert"></div>
+          {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+          <div class="row">
+            <div class="col-md-6">{% include "includes/campo.html" with campo=form.numero_pedido %}</div>
+            <div class="col-md-6">{% include "includes/campo.html" with campo=form.cliente %}</div>
+          </div>
+          {% include "includes/campo.html" with campo=form.descripcion %}
+          <div class="row">
+            <div class="col-md-6">{% include "includes/campo.html" with campo=form.valor_total %}</div>
+            <div class="col-md-6">{% include "includes/campo.html" with campo=form.estado %}</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% url 'pedidos:lista' %}" class="btn btn-outline-secondary">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{% static 'js/validaciones.js' %}"></script>{% endblock %}

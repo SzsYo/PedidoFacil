@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block titulo %}Pedido {{ object.numero_pedido }}{% endblock %}
+{% block contenido %}
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <h1 class="h4">Pedido {{ object.numero_pedido }} {% include "pedidos/_estado.html" with pedido=object %}</h1>
+    <dl class="row mb-0">
+      <dt class="col-sm-3">Cliente</dt><dd class="col-sm-9">{{ object.cliente }}</dd>
+      <dt class="col-sm-3">Descripción</dt><dd class="col-sm-9">{{ object.descripcion }}</dd>
+      <dt class="col-sm-3">Valor total</dt><dd class="col-sm-9">$ {{ object.valor_total|floatformat:2 }}</dd>
+      <dt class="col-sm-3">Fecha de registro</dt><dd class="col-sm-9">{{ object.fecha_registro|date:"d/m/Y H:i" }}</dd>
+      <dt class="col-sm-3">Registrado por</dt><dd class="col-sm-9">{{ object.usuario.get_username }}</dd>
+    </dl>
+  </div>
+  <div class="card-footer d-flex flex-wrap gap-2">
+    <a href="{% url 'pedidos:lista' %}" class="btn btn-outline-secondary">Volver</a>
+    <a href="{% url 'pedidos:editar' object.pk %}" class="btn btn-primary">Editar</a>
+    <a href="{% url 'pedidos:eliminar' object.pk %}" class="btn btn-outline-danger">Eliminar</a>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="h6">Cambiar estado</h2>
+    <form method="post" action="{% url 'pedidos:cambiar_estado' object.pk %}" class="row g-2">
+      {% csrf_token %}
+      <div class="col-12 col-sm-6 col-md-4">
+        <select name="estado" class="form-select" aria-label="Estado del pedido">
+          {% for valor, etiqueta in estado_form.fields.estado.choices %}
+            <option value="{{ valor }}" {% if valor == object.estado %}selected{% endif %}>{{ etiqueta }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-auto"><button type="submit" class="btn btn-outline-primary">Actualizar estado</button></div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,5 @@
+.form-control.is-valid, .form-select.is-valid { background-image: none; }
+.table td, .table th { vertical-align: middle; }
+@media (max-width: 575.98px) {
+  .btn-sm { padding: .35rem .6rem; }
+}

@@ -1,0 +1,3 @@
+{% if pedido.estado == 'confirmado' %}<span class="badge text-bg-success">Confirmado</span>
+{% elif pedido.estado == 'cancelado' %}<span class="badge text-bg-danger">Cancelado</span>
+{% else %}<span class="badge text-bg-warning">Pendiente</span>{% endif %}

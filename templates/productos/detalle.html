@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}{{ object.nombre }}{% endblock %}
+{% block contenido %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h1 class="h4">{{ object.nombre }}</h1>
+    <dl class="row mb-0">
+      <dt class="col-sm-3">Descripción</dt><dd class="col-sm-9">{{ object.descripcion|default:"—" }}</dd>
+      <dt class="col-sm-3">Precio</dt><dd class="col-sm-9">$ {{ object.precio|floatformat:2 }}</dd>
+      <dt class="col-sm-3">Cantidad disponible</dt><dd class="col-sm-9">{{ object.cantidad_disponible }}</dd>
+      <dt class="col-sm-3">Fecha de registro</dt><dd class="col-sm-9">{{ object.fecha_registro|date:"d/m/Y H:i" }}</dd>
+    </dl>
+  </div>
+  <div class="card-footer d-flex flex-wrap gap-2">
+    <a href="{% url 'productos:lista' %}" class="btn btn-outline-secondary">Volver</a>
+    <a href="{% url 'productos:editar' object.pk %}" class="btn btn-primary">Editar</a>
+    <a href="{% url 'productos:eliminar' object.pk %}" class="btn btn-outline-danger">Eliminar</a>
+  </div>
+</div>
+{% endblock %}

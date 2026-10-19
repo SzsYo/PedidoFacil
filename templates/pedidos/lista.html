@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block titulo %}Pedidos{% endblock %}
+{% block contenido %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h3 mb-0">Pedidos</h1>
+  <a href="{% url 'pedidos:crear' %}" class="btn btn-primary">Nuevo pedido</a>
+</div>
+
+<form method="get" class="row g-2 mb-3">
+  <div class="col-12 col-md-6">
+    <input type="search" name="q" value="{{ q }}" class="form-control" placeholder="Buscar por cliente o número de pedido" aria-label="Buscar pedido">
+  </div>
+  <div class="col-auto"><button class="btn btn-outline-primary" type="submit">Buscar</button></div>
+  {% if q %}<div class="col-auto"><a class="btn btn-link" href="{% url 'pedidos:lista' %}">Limpiar</a></div>{% endif %}
+</form>
+
+<div class="card shadow-sm mb-3">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr><th>N.º</th><th>Cliente</th><th class="text-end">Valor total</th><th>Estado</th><th>Fecha</th><th class="text-end">Acciones</th></tr>
+      </thead>
+      <tbody>
+        {% for p in pedidos %}
+        <tr>
+          <td><a href="{% url 'pedidos:detalle' p.pk %}" class="text-decoration-none">{{ p.numero_pedido }}</a></td>
+          <td>{{ p.cliente }}</td>
+          <td class="text-end">$ {{ p.valor_total|floatformat:2 }}</td>
+          <td>{% include "pedidos/_estado.html" with pedido=p %}</td>
+          <td>{{ p.fecha_registro|date:"d/m/Y" }}</td>
+          <td class="text-end text-nowrap">
+            <a href="{% url 'pedidos:detalle' p.pk %}" class="btn btn-sm btn-outline-secondary">Ver</a>
+            <a href="{% url 'pedidos:editar' p.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+            <a href="{% url 'pedidos:eliminar' p.pk %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center text-muted py-4">{% if q %}No se encontraron pedidos con «{{ q }}».{% else %}Aún no hay pedidos registrados.{% endif %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "includes/paginacion.html" %}
+{% endblock %}
