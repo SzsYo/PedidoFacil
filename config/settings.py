@@ -73,10 +73,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Si no existe la variable, se usa SQLite solo para pruebas locales rápidas.
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / '.env'}",
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=bool(os.environ.get("DATABASE_URL")),
+                'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     )
 }
 
