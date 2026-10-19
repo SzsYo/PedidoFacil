@@ -72,9 +72,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Base de datos: PostgreSQL en Neon (DATABASE_URL).
 # Si no existe la variable, se usa SQLite solo para pruebas locales rápidas.
 DATABASES = {
-    "default": dj_database_url.config(
-                'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": dj_database_url.parse(
+        os.environ.get("DATABASE_URL")
     )
 }
 
