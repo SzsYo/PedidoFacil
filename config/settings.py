@@ -72,8 +72,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Base de datos: PostgreSQL en Neon (DATABASE_URL).
 # Si no existe la variable, se usa SQLite solo para pruebas locales rápidas.
 DATABASES = {
-    "default": dj_database_url.parse(
-        os.environ.get("postgresql://neondb_owner:npg_0fqZHNE1FLhy@ep-flat-unit-b5xjft6t.c-7.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=bool(os.environ.get("DATABASE_URL")),
     )
 }
 
