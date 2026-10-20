@@ -73,7 +73,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Si no existe la variable, se usa SQLite solo para pruebas locales rápidas.
 DATABASES = {
     "default": dj_database_url.parse(
-        os.environ.get("DATABASE_URL")
+        os.environ.get("postgresql://neondb_owner:npg_0fqZHNE1FLhy@ep-flat-unit-b5xjft6t.c-7.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
     )
 }
 
